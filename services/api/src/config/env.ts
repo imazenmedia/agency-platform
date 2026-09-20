@@ -15,11 +15,19 @@ export const env = {
   NODE_ENV: process.env.NODE_ENV || 'development',
   DATABASE_URL: process.env.DATABASE_URL,
   PORT: isNaN(port) ? 5000 : port,
+  JWT_SECRET: process.env.JWT_SECRET,
+  ACCESS_TOKEN_EXPIRES_IN: process.env.ACCESS_TOKEN_EXPIRES_IN || '15m',
+  AUTH_COOKIE_SECURE: process.env.AUTH_COOKIE_SECURE === 'true' || process.env.NODE_ENV === 'production',
+  AUTH_COOKIE_SAME_SITE: (process.env.AUTH_COOKIE_SAME_SITE || 'lax') as 'lax' | 'strict' | 'none',
+  AUTH_COOKIE_DOMAIN: process.env.AUTH_COOKIE_DOMAIN,
 };
 
 export function validateEnv() {
   if (!env.DATABASE_URL) {
     throw new Error('DATABASE_URL is not defined in the environment variables.');
+  }
+  if (!env.JWT_SECRET) {
+    throw new Error('JWT_SECRET is not defined in the environment variables.');
   }
 
   if (isNaN(env.PORT) || env.PORT <= 0 || env.PORT > 65535) {

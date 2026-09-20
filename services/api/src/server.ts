@@ -6,6 +6,7 @@ import { connectDatabase } from '@agency-platform/database';
 import { env, validateEnv } from './config/env.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import { notFoundHandler } from './middleware/notFound.js';
+import { authRouter } from './routes/auth.js';
 
 const app = express();
 
@@ -23,6 +24,8 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+app.use('/api/v1/auth', authRouter);
 
 app.get('/api/v1/health', (_req, res) => {
   res.json({

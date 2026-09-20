@@ -43,4 +43,4 @@ const TenantSchema = new Schema<ITenant>(
   { timestamps: true }
 );
 
-export const Tenant = mongoose.models.Tenant || mongoose.model<ITenant>('Tenant', TenantSchema);
+export const Tenant = (mongoose.models.Tenant || mongoose.model<ITenant>('Tenant', TenantSchema)) as mongoose.Model<ITenant>;

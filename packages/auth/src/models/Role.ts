@@ -35,4 +35,4 @@ const RoleSchema = new Schema<IRole>(
 
 RoleSchema.index({ tenantId: 1, name: 1 }, { unique: true });
 
-export const Role = mongoose.models.Role || mongoose.model<IRole>('Role', RoleSchema);
+export const Role = (mongoose.models.Role || mongoose.model<IRole>('Role', RoleSchema)) as mongoose.Model<IRole>;

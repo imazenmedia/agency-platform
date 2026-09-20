@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit -p tsconfig.json"
   },
   "dependencies": {
+    "@agency-platform/auth": "^0.1.0",
     "@agency-platform/database": "^0.1.0",
     "dotenv": "^18.0.1"
   }
