@@ -1,0 +1,18 @@
+{
+  "name": "@agency-platform/auth",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./models": "./src/models/index.ts",
+    "./password": "./src/password.ts"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "mongoose": "^9.10.1"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2"
+  }
+}
