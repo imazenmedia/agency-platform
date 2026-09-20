@@ -5,9 +5,11 @@ import {
   updateTenantSchema,
 } from '@agency-platform/auth';
 import { authenticate } from '../middleware/authenticate.js';
+import { resolveTenantContext } from '../middleware/tenantContext.js';
 import {
   requirePermission,
   requirePlatformScope,
+  requireTenantAccess,
 } from '../middleware/authorize.js';
 import { AppError } from '../utils/AppError.js';
 
@@ -15,6 +17,7 @@ export const tenantsRouter = Router();
 const tenantService = new TenantService();
 
 tenantsRouter.use(authenticate);
+tenantsRouter.use(resolveTenantContext);
 
 tenantsRouter.post(
   '/',
@@ -51,12 +54,9 @@ tenantsRouter.get(
 tenantsRouter.get(
   '/:id',
   requirePermission('tenants.read'),
+  requireTenantAccess((req) => req.params.id as string),
   async (req, res, next) => {
     try {
-      if (req.user!.tenantId !== null && req.user!.tenantId !== req.params.id) {
-        throw new AppError('Forbidden', 403, 'FORBIDDEN');
-      }
-
       const tenant = await tenantService.getTenantById(req.params.id as string);
       res.json({ success: true, data: tenant });
     } catch (error: any) {
@@ -68,12 +68,9 @@ tenantsRouter.get(
 tenantsRouter.patch(
   '/:id',
   requirePermission('tenants.update'),
+  requireTenantAccess((req) => req.params.id as string),
   async (req, res, next) => {
     try {
-      if (req.user!.tenantId !== null && req.user!.tenantId !== req.params.id) {
-        throw new AppError('Forbidden', 403, 'FORBIDDEN');
-      }
-
       const parsed = updateTenantSchema.safeParse(req.body);
       if (!parsed.success) {
         throw new AppError('Invalid update data', 400, 'BAD_REQUEST');
@@ -82,7 +79,7 @@ tenantsRouter.patch(
       const tenant = await tenantService.updateTenant(
         req.params.id as string,
         parsed.data,
-        req.user!.tenantId,
+        req.tenantContext!.tenantId,
       );
       res.json({ success: true, data: tenant });
     } catch (error: any) {

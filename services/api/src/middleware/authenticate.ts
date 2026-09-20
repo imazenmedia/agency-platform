@@ -3,18 +3,25 @@ import { AuthService, AuthUser } from '@agency-platform/auth';
 import { env } from '../config/env.js';
 import { AppError } from '../utils/AppError.js';
 
+import { RequestContext } from '@agency-platform/auth';
+
 declare module 'express-serve-static-core' {
   interface Request {
     user?: AuthUser;
+    tenantContext?: RequestContext;
   }
 }
 
 const authService = new AuthService({
   jwtSecret: env.JWT_SECRET!,
-  accessTokenExpiresIn: env.ACCESS_TOKEN_EXPIRES_IN
+  accessTokenExpiresIn: env.ACCESS_TOKEN_EXPIRES_IN,
 });
 
-export const authenticate = async (req: Request, _res: Response, next: NextFunction): Promise<void> => {
+export const authenticate = async (
+  req: Request,
+  _res: Response,
+  next: NextFunction,
+): Promise<void> => {
   try {
     const accessToken = req.cookies?.accessToken;
 

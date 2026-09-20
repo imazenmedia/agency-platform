@@ -5,6 +5,7 @@ import {
   updateUserSchema,
 } from '@agency-platform/auth';
 import { authenticate } from '../middleware/authenticate.js';
+import { resolveTenantContext } from '../middleware/tenantContext.js';
 import { requirePermission } from '../middleware/authorize.js';
 import { AppError } from '../utils/AppError.js';
 
@@ -12,6 +13,7 @@ export const usersRouter = Router();
 const userService = new UserService();
 
 usersRouter.use(authenticate);
+usersRouter.use(resolveTenantContext);
 
 usersRouter.post(
   '/',
@@ -25,7 +27,7 @@ usersRouter.post(
 
       const user = await userService.createUser(
         parsed.data,
-        req.user!.tenantId,
+        req.tenantContext!.tenantId,
       );
       res.status(201).json({ success: true, data: user });
     } catch (error: any) {
@@ -39,7 +41,7 @@ usersRouter.get(
   requirePermission('users.read'),
   async (req, res, next) => {
     try {
-      const users = await userService.listUsers(req.user!.tenantId);
+      const users = await userService.listUsers(req.tenantContext!.tenantId);
       res.json({ success: true, data: users });
     } catch (error: any) {
       next(new AppError(error.message, 400, 'BAD_REQUEST'));
@@ -54,7 +56,7 @@ usersRouter.get(
     try {
       const user = await userService.getUserById(
         req.params.id as string,
-        req.user!.tenantId,
+        req.tenantContext!.tenantId,
       );
       res.json({ success: true, data: user });
     } catch (error: any) {
@@ -80,7 +82,7 @@ usersRouter.patch(
       const user = await userService.updateUser(
         req.params.id as string,
         parsed.data,
-        req.user!.tenantId,
+        req.tenantContext!.tenantId,
       );
       res.json({ success: true, data: user });
     } catch (error: any) {
@@ -101,7 +103,7 @@ usersRouter.post(
       const user = await userService.setStatus(
         req.params.id as string,
         'DISABLED',
-        req.user!.tenantId,
+        req.tenantContext!.tenantId,
         req.user!.id,
       );
       res.json({ success: true, data: user });
@@ -123,7 +125,7 @@ usersRouter.post(
       const user = await userService.setStatus(
         req.params.id as string,
         'ACTIVE',
-        req.user!.tenantId,
+        req.tenantContext!.tenantId,
         req.user!.id,
       );
       res.json({ success: true, data: user });
@@ -145,7 +147,7 @@ usersRouter.post(
       const user = await userService.setStatus(
         req.params.id as string,
         'SUSPENDED',
-        req.user!.tenantId,
+        req.tenantContext!.tenantId,
         req.user!.id,
       );
       res.json({ success: true, data: user });
