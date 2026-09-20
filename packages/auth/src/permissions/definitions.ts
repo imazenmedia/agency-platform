@@ -19,13 +19,18 @@ export const Permissions = {
   LEADS_READ: 'leads.read',
   LEADS_CREATE: 'leads.create',
   LEADS_UPDATE: 'leads.update',
-  LEADS_DELETE: 'leads.delete'
+  LEADS_DELETE: 'leads.delete',
+
+  // Tenants
+  TENANTS_READ: 'tenants.read',
+  TENANTS_CREATE: 'tenants.create',
+  TENANTS_UPDATE: 'tenants.update',
 } as const;
 
-export type Permission = typeof Permissions[keyof typeof Permissions];
+export type Permission = (typeof Permissions)[keyof typeof Permissions];
 
 export const SystemRoles = {
   PLATFORM_SUPER_ADMIN: 'PLATFORM_SUPER_ADMIN',
   TENANT_ADMIN: 'TENANT_ADMIN',
-  STAFF: 'STAFF'
+  STAFF: 'STAFF',
 } as const;

@@ -7,6 +7,8 @@ import { env, validateEnv } from './config/env.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import { notFoundHandler } from './middleware/notFound.js';
 import { authRouter } from './routes/auth.js';
+import { usersRouter } from './routes/users.js';
+import { tenantsRouter } from './routes/tenants.js';
 
 const app = express();
 
@@ -26,6 +28,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/users', usersRouter);
+app.use('/api/v1/tenants', tenantsRouter);
 
 app.get('/api/v1/health', (_req, res) => {
   res.json({
