@@ -1,0 +1,26 @@
+{
+  "name": "agency-platform",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Reusable multi-tenant agency platform",
+  "workspaces": [
+    "apps/*",
+    "services/*",
+    "packages/*",
+    "modules/*"
+  ],
+  "scripts": {
+    "dev": "echo \"Development environment coming next\"",
+    "build": "echo \"Build system coming next\"",
+    "test": "echo \"Tests coming next\"",
+    "lint": "echo \"Linting coming next\"",
+    "format": "prettier --write ."
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "packageManager": "npm@10",
+  "devDependencies": {
+    "prettier": "^3.9.8"
+  }
+}
