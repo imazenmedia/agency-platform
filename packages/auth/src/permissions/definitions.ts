@@ -25,6 +25,10 @@ export const Permissions = {
   TENANTS_READ: 'tenants.read',
   TENANTS_CREATE: 'tenants.create',
   TENANTS_UPDATE: 'tenants.update',
+
+  // Modules
+  MODULES_READ: 'modules.read',
+  MODULES_UPDATE: 'modules.update',
 } as const;
 
 export type Permission = (typeof Permissions)[keyof typeof Permissions];

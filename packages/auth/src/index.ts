@@ -11,3 +11,4 @@ export * from './permissions/definitions.js';
 export * from './permissions/resolver.js';
 export * from './context/types.js';
 export * from './context/helpers.js';
+export * from './services/tenantModuleService.js';

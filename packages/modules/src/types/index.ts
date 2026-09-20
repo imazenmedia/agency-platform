@@ -9,4 +9,5 @@ export interface ModuleDefinition {
   dependencies: string[];
   core: boolean;
   configurable: boolean;
+  defaultEnabled: boolean;
 }
